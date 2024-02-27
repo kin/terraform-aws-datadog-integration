@@ -117,12 +117,12 @@ locals {
 resource "aws_iam_policy" "all" {
   count  = local.all_count
   name   = module.all_label.id
-  policy = join("", data.aws_iam_policy_document.all.*.json)
+  policy = join("", data.aws_iam_policy_document.all[*].json)
   tags   = module.all_label.tags
 }
 
 resource "aws_iam_role_policy_attachment" "all" {
   count      = local.all_count
-  role       = join("", aws_iam_role.default.*.name)
-  policy_arn = join("", aws_iam_policy.all.*.arn)
+  role       = join("", aws_iam_role.default[*].name)
+  policy_arn = join("", aws_iam_policy.all[*].arn)
 }

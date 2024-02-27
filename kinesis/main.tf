@@ -1,8 +1,6 @@
 # significant inspiration from the following sources:
 # https://github.com/magnetikonline/terraform-aws-datadog-metric-stream
 
-data "aws_caller_identity" "current" {}
-
 data "aws_ssm_parameter" "datadog_api_key" {
   name = var.datadog_api_key_ssm_parameter_name
 }
@@ -38,17 +36,17 @@ resource "aws_kinesis_firehose_delivery_stream" "datadog" {
     request_configuration {
       content_encoding = "GZIP"
     }
-  }
 
-  s3_configuration {
-    bucket_arn      = local.backup_bucket_arn
-    buffer_interval = 300 # seconds
-    buffer_size     = 5   # MB
-    prefix          = "metrics/"
-    role_arn        = aws_iam_role.datadog_firehose.arn
+    s3_configuration {
+      bucket_arn         = local.backup_bucket_arn
+      buffering_interval = 300 # seconds
+      buffering_size     = 5   # MB
+      prefix             = "metrics/"
+      role_arn           = aws_iam_role.datadog_firehose.arn
 
-    cloudwatch_logging_options {
-      enabled = false
+      cloudwatch_logging_options {
+        enabled = false
+      }
     }
   }
 
