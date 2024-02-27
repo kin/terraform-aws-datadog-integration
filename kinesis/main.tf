@@ -55,6 +55,8 @@ resource "aws_kinesis_firehose_delivery_stream" "datadog" {
   server_side_encryption {
     enabled = false
   }
+
+  tags = module.this.tags
 }
 
 ## CloudWatch metric stream
@@ -72,4 +74,6 @@ resource "aws_cloudwatch_metric_stream" "datadog" {
       namespace = item.value
     }
   }
+
+  tags = module.this.tags
 }

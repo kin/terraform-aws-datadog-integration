@@ -40,4 +40,6 @@ resource "aws_iam_role" "datadog_firehose" {
     name   = "${module.this.id}-backup"
     policy = data.aws_iam_policy_document.datadog_firehose_s3_backup.json
   }
+
+  tags = module.this.tags
 }

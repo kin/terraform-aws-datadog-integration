@@ -31,4 +31,6 @@ resource "aws_iam_role" "stream" {
     name   = "${module.this.id}-metric-delivery"
     policy = data.aws_iam_policy_document.metrics_delivery.json
   }
+
+  tags = module.this.tags
 }
